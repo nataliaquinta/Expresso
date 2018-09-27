@@ -13,13 +13,13 @@ menuItemsRouter.param('menuItemId', (req, res, next, menuItemId) => {
       req.menuItem = menuItem;
       next();
     } else {
-      res.status(404).send;
+      res.sendStatus(404);
     }
   });
 });
 
 menuItemsRouter.get('/', (req, res, next) => {
-    const sql = 'SELECT * FROM MenuItem WHERE menu_id = $menuId';
+    const sql = `SELECT * FROM MenuItem WHERE MenuItem.menu_id = $menuId`;
     const values = { $menuId: req.params.menuId};
     
     db.all(sql, values, (err, menuItems) => {
@@ -43,8 +43,8 @@ menuItemsRouter.post('/', (req, res, next) => {
         return res.status(400).send();
       }
 
-    const sql = 'INSERT INTO MenuItem (name, description, inventory, price, menuId)' +
-    'VALUES ($name, $description, $inventory, $price, $menuId)';
+    const sql = `INSERT INTO MenuItem (name, description, inventory, price, menuId) 
+    VALUES ($name, $description, $inventory, $price, $menuId)`;
     const values = {
         $name: name, 
         $description: description, 
@@ -74,8 +74,7 @@ menuItemsRouter.put('/:menuItemId', (req, res, next) => {
     return res.sendStatus(400);
   }
 
-  const query = 'UPDATE MenuItem SET name=$name, description=$description, inventory=$inventory, price=$price ' +
-                'WHERE MenuItem.id=$menuItemId';
+  const query = `UPDATE MenuItem SET name=$name, description=$description, inventory=$inventory, price=$price WHERE MenuItem.id=$menuItemId`;
   const values = {
     $name: name,
     $description: description,
@@ -98,14 +97,14 @@ menuItemsRouter.put('/:menuItemId', (req, res, next) => {
 
 menuItemsRouter.delete('/:menuItemId', (req, res, next) => {
   const menuItemId = req.params.menuItemId;
-  const sql = 'DELETE FROM MenuItem WHERE id = $menuItemId';
+  const sql = `DELETE FROM MenuItem WHERE id = $menuItemId`;
   const values = {$menuItemId: menuItemId};
   
   db.run(sql, values, (err) => {
    if (err) {
        next(err);
       } else {
-        res.status(404).send();
+        res.sendStatus(204);
     }
   });
 });

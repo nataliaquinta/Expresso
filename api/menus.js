@@ -40,7 +40,7 @@ menuRouter.get('/', (req, res, next) => {
   menuRouter.post('/', (req, res, next) => {
     const title = req.body.menu.title;
     if (!title) {
-      return res.status(400);
+      return res.sendStatus(400);
     }
     const sql = 'INSERT INTO Menu (title) VALUES ($title)';
     const values = {
