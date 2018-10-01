@@ -78,7 +78,8 @@ timesheetsRouter.put('/:timesheetId', (req, res, next) => {
         return res.status(400).send();
       }
     
-    const sql = 'UPDATE Timesheet  SET hours = $hours, rate = $rate, date = $date, employee_id = $employeeId WHERE Timesheet.employee_id = $employeeId';
+    const sql = `UPDATE Timesheet  SET hours = $hours, 
+    rate = $rate, date = $date, employee_id = $employeeId WHERE Timesheet.employee_id = $employeeId`;
     const values = {
         $hours: hours, 
         $rate: rate, 
